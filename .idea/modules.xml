@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/smartparkinglot/SmartParkingLot.iml" filepath="$PROJECT_DIR$/smartparkinglot/SmartParkingLot.iml" />
       <module fileurl="file://$PROJECT_DIR$/SmartParkingLotProject.iml" filepath="$PROJECT_DIR$/SmartParkingLotProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
