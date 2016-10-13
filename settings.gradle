@@ -1,1 +1,1 @@
-include ':app', ':smartparkinglot', ':SmartParkingLot'
+include ':smartparkinglot', ':SmartParkingLot'
