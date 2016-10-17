@@ -13,18 +13,31 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".PaymentScreen" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
 
+=======
+        <activity android:name=".PaymentScreen">
+>>>>>>> 59400036583d5450cf6296419210296999f9f1b6
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 
+=======
+        <activity android:name=".ChooseYourPayment"
+                android:label="Choose Your Payment Method">
+        </activity>
+        <activity android:name=".GooglePayPage"
+
+            >
+        </activity>
+>>>>>>> 59400036583d5450cf6296419210296999f9f1b6
     </application>
 
 </manifest>
