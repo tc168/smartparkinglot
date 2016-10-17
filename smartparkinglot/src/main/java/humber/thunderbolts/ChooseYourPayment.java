@@ -1,28 +1,35 @@
 package humber.thunderbolts;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class PaymentScreen extends AppCompatActivity {
+/**
+ * Created by Tony on 10/16/16.
+ */
+
+public class ChooseYourPayment extends Activity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_screen);
+        setContentView(R.layout.activity_payment_choice);
 
-        Button btnAddPay = (Button) findViewById(R.id.add_payment);
+        Button btnGoogle = (Button) findViewById(R.id.google);
 
-        btnAddPay.setOnClickListener(new View.OnClickListener() {
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentScreen.this, ChooseYourPayment.class);
+                Intent intent = new Intent(ChooseYourPayment.this, GooglePayPage.class);
                 startActivity(intent);
             }
         });
 
 
+
     }
 }
+
+
