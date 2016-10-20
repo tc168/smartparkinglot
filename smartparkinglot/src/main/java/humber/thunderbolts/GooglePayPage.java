@@ -1,13 +1,22 @@
 package humber.thunderbolts;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by Tony on 10/17/16.
+ */
+
+public class GooglePayPage extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.google_pay);
+
+
+
+
+
     }
 }
