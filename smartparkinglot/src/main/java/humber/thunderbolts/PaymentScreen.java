@@ -18,8 +18,8 @@ public class PaymentScreen extends AppCompatActivity {
         btnAddPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentScreen.this, ChooseYourPayment.class);
-                startActivity(intent);
+            //    Intent intent = new Intent(PaymentScreen.this, ChooseYourPayment.class);
+               // startActivity(intent);
             }
         });
 
