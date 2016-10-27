@@ -21,7 +21,7 @@
 
         <activity
             android:name=".MapActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,10 +36,9 @@
             android:label="@string/title_activity_login"></activity>
         <activity android:name=".GooglePayPage"></activity>
 
-        <activity
-            android:name=".PaymentScreen" />
-
+        <activity android:name=".Register"></activity>
 
     </application>
+
 
 </manifest>
