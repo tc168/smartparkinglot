@@ -39,6 +39,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
 
                 break;
+            case R.id.tvRegisterLink:
+                Intent registerIntent = new Intent(LoginActivity.this, Register.class);
+                startActivity(registerIntent);
+                break;
 
         }
     }
