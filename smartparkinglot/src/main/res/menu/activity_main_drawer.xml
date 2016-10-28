@@ -6,8 +6,13 @@
             android:title="Import" />
         <item android:id="@+id/drawer_payment"
             android:title="@string/drawer_payment_select" />
+
         <item android:id="@+id/drawer_login"
             android:title="@string/drawer_login_select" />
+
+        <item android:id="@+id/drawer_settings"
+            android:title="Settings" />
+
         <item android:id="@+id/nav_manage" android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
     </group>

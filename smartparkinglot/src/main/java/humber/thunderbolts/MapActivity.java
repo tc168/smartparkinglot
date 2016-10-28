@@ -147,9 +147,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Intent intentPaymentScreen = new Intent(this, PaymentScreen.class);
             startActivity(intentPaymentScreen);
 
+
         } else if (id == R.id.drawer_login) {
             Intent intentLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(intentLoginActivity);
+
+        } else if (id == R.id.drawer_settings) {
+            Intent intentSettingActivity = new Intent(this, SettingActivity.class);
+            startActivity(intentSettingActivity);
+
 
         } else if (id == R.id.nav_manage) {
 

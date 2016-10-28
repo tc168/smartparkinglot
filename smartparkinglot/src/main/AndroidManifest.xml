@@ -28,12 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"></activity>
+
+        <activity android:name=".GooglePayPage" />
+        <activity android:name=".PaymentScreen" />
+        <activity android:name=".SettingActivity"></activity>
+
         <activity android:name=".GooglePayPage"></activity>
 
         <activity android:name=".Register"></activity>
