@@ -1,27 +1,29 @@
 package humber.thunderbolts;
 
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,7 +37,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +45,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,10 +77,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        LatLng humber = new LatLng(43.72952382003048, -79.60450954735279);
+        // mMap.addMarker(new MarkerOptions().position(humber).title("Marker in Humber Parking"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(humber));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(18.5f));
+
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng arg0) {
+                // TODO Auto-generated method stub
+                Log.d("arg0", arg0.latitude + "-" + arg0.longitude);
+            }
+        });
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -85,8 +102,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.back_exit)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.menu_yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            MapActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.menu_no, null)
+                    .show();
         }
+
+
     }
 
     @Override
@@ -123,9 +152,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Intent intentPaymentScreen = new Intent(this, PaymentScreen.class);
             startActivity(intentPaymentScreen);
 
+
+        } else if (id == R.id.drawer_login) {
+            Intent intentLoginActivity = new Intent(this, LoginActivity.class);
+            startActivity(intentLoginActivity);
+
         } else if (id == R.id.drawer_settings) {
             Intent intentSettingActivity = new Intent(this, SettingActivity.class);
             startActivity(intentSettingActivity);
+
+
 
         } else if (id == R.id.nav_manage) {
 
