@@ -26,6 +26,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="allow_notification">Allow Notification</string>
 
     <string name="add_payment">Add Payment</string>
     <string name="payment_screen_label">Payment</string>

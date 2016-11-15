@@ -13,17 +13,27 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import humber.thunderbolts.parking.ConnectDatabase;
+import humber.thunderbolts.parking.ParkingSpot;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
-
+    private  ConnectDatabase con;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +42,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        con = new ConnectDatabase();
+        con.execute();
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +86,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+      ArrayList<ParkingSpot> listOfParkingSpots = con.getParkingSpotsList();
+        System.out.println(Arrays.toString(listOfParkingSpots.toArray()));
+        for (ParkingSpot p : listOfParkingSpots){
+            LatLng parkSpot = new LatLng(p.getLongitude(),p.getLatitude());
+            float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
+            MarkerOptions markerOption = new MarkerOptions()
+                    .position(parkSpot).title(p.getLicensePlate())
+                    .icon(BitmapDescriptorFactory.defaultMarker(color));
+            mMap.addMarker(markerOption);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(parkSpot));
+           Toast.makeText(getBaseContext(),p.toString(),Toast.LENGTH_LONG);
+        }
         LatLng humber = new LatLng(43.72952382003048, -79.60450954735279);
         // mMap.addMarker(new MarkerOptions().position(humber).title("Marker in Humber Parking"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(humber));
@@ -141,9 +166,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.drawer_payment) {
+
+          if (id == R.id.drawer_payment) {
             Intent intentPaymentScreen = new Intent(this, PaymentScreen.class);
             startActivity(intentPaymentScreen);
 
@@ -157,11 +181,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(intentSettingActivity);
 
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
