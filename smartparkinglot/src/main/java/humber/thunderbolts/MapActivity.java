@@ -1,3 +1,4 @@
+//Thomas Chang
 package humber.thunderbolts;
 
 import android.content.DialogInterface;
