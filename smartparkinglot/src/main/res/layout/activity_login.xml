@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
 
     <TextView
@@ -43,6 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Register Here"
-        android:textStyle="bold" />
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
 </LinearLayout>

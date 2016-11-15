@@ -29,15 +29,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         bLogin.setOnClickListener(this);
         registerLink.setOnClickListener(this);
 
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bLogin:
-
-
+                Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case R.id.tvRegisterLink:
                 Intent registerIntent = new Intent(LoginActivity.this, Register.class);
