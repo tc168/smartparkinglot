@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 
 
-public class ConnectDatabase extends AsyncTask<Object, Object, Void> {
+public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<ParkingSpot>> {
 
     public ArrayList<ParkingSpot> getParkingSpotsList() {
         return parkingSpotsList;
@@ -34,7 +35,7 @@ public class ConnectDatabase extends AsyncTask<Object, Object, Void> {
 
 
     @Override
-    protected Void doInBackground(Object... params) {
+    protected ArrayList<ParkingSpot> doInBackground(Object... params) {
         String response = "";
         Connection conn = null;
         try {
@@ -46,6 +47,7 @@ public class ConnectDatabase extends AsyncTask<Object, Object, Void> {
 
             conn = (Connection) DriverManager.getConnection("jdbc:mysql://10.0.2.2:3306/smartparking", "root", "password");
             Statement stmt = conn.createStatement();
+
             ResultSet reset = stmt.executeQuery(" select * from parkingspots ");
             ResultSetMetaData rsmd = (ResultSetMetaData) reset.getMetaData();
 
@@ -57,8 +59,9 @@ public class ConnectDatabase extends AsyncTask<Object, Object, Void> {
 
                 System.out.println(parkingSpot);
                 parkingSpotsList.add(parkingSpot);
-                conn.close();
+
             }
+            conn.close();
 
         } catch (ClassNotFoundException e1) {
             e1.printStackTrace();
@@ -71,7 +74,7 @@ public class ConnectDatabase extends AsyncTask<Object, Object, Void> {
 
 
 
-         return null;
+         return parkingSpotsList;
     }
 
 }

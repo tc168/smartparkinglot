@@ -3,6 +3,7 @@ package humber.thunderbolts;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 import humber.thunderbolts.parking.ConnectDatabase;
 import humber.thunderbolts.parking.ParkingSpot;
@@ -34,6 +36,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private  ConnectDatabase con;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +50,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         con = new ConnectDatabase();
-        con.execute();
+
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,18 +92,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-      ArrayList<ParkingSpot> listOfParkingSpots = con.getParkingSpotsList();
-        System.out.println(Arrays.toString(listOfParkingSpots.toArray()));
+
+        ArrayList<ParkingSpot> listOfParkingSpots = null;
+        try {
+            listOfParkingSpots = con.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        assert listOfParkingSpots != null;
         for (ParkingSpot p : listOfParkingSpots){
             LatLng parkSpot = new LatLng(p.getLongitude(),p.getLatitude());
             float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
             MarkerOptions markerOption = new MarkerOptions()
                     .position(parkSpot).title(p.getLicensePlate())
                     .icon(BitmapDescriptorFactory.defaultMarker(color));
-            mMap.addMarker(markerOption);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(parkSpot));
-           Toast.makeText(getBaseContext(),p.toString(),Toast.LENGTH_LONG);
+
+            Marker marker =  mMap.addMarker(markerOption);
+            marker.showInfoWindow();
+
         }
+
+
+
         LatLng humber = new LatLng(43.72952382003048, -79.60450954735279);
         // mMap.addMarker(new MarkerOptions().position(humber).title("Marker in Humber Parking"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(humber));
@@ -108,7 +125,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             @Override
             public void onMapClick(LatLng arg0) {
-                // TODO Auto-generated method stub
+
                 Log.d("arg0", arg0.latitude + "-" + arg0.longitude);
             }
         });
@@ -141,7 +158,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+      // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -150,12 +167,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+      //  int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -179,8 +194,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else if (id == R.id.drawer_settings) {
             Intent intentSettingActivity = new Intent(this, SettingActivity.class);
             startActivity(intentSettingActivity);
-
-
 
         }
 
