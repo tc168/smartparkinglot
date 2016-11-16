@@ -2,18 +2,15 @@
 package humber.thunderbolts.parking;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.ResultSetMetaData;
-
-
+//Using java.sql instead of com.mysql?
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 
 /**
  * Created by Thomas on 2016-11-15.
