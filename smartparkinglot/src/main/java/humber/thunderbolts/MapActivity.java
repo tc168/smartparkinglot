@@ -4,7 +4,6 @@ package humber.thunderbolts;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,16 +25,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import humber.thunderbolts.parking.ConnectDatabase;
 import humber.thunderbolts.parking.ParkingSpot;
 
+//import humber.thunderbolts.parking.ConnectDatabase;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
-    private  ConnectDatabase con;
+
+    private ConnectDatabase con;
 
 
 
@@ -183,12 +183,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int id = item.getItemId();
 
 
-          if (id == R.id.drawer_payment) {
-            Intent intentPaymentScreen = new Intent(this, PaymentScreen.class);
-            startActivity(intentPaymentScreen);
-
-
-        } else if (id == R.id.drawer_login) {
+        //deleted old payment
+        if (id == R.id.drawer_login) {
             Intent intentLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(intentLoginActivity);
 
