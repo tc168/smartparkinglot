@@ -182,9 +182,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        //pay for your parking fee and leave in 20 minutes
+        /**drawer_pay and wallet Created by Yan Yu (n00769714)******/
+        if (id == R.id.drawer_pay) {
+            final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    builder1.setMessage(R.string.dialog_builder1);
+                    builder1.setPositiveButton("Ok", null);
+                    builder1.create();
+                    builder1.show();
+                }
+            })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    })
+                    .setMessage(R.string.dialog_pay_message)
+                    .setTitle(R.string.dialog_pay_title);
+            builder.create();
+            builder.show();
 
-        //deleted old payment
-        if (id == R.id.drawer_login) {
+        } else if (id == R.id.drawer_wallet) {
+            Intent intentWalletActivity = new Intent(this, WalletActivity.class);
+            startActivity(intentWalletActivity);
+        }
+
+
+            //deleted old payment
+        else if (id == R.id.drawer_login) {
             Intent intentLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(intentLoginActivity);
 

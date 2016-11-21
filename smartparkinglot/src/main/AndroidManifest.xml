@@ -30,15 +30,18 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login">
+        </activity>
 
-        <activity android:name=".GooglePayPage" />
-        <activity android:name=".PaymentScreen" />
-        <activity android:name=".SettingActivity"></activity>
+        //deleted
+        <activity android:name=".SettingActivity">
+        </activity>
+        //Add wallet activity
+        <activity android:name=".WalletActivity">
+        </activity>
 
-
-
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Register">
+        </activity>
 
     </application>
 
