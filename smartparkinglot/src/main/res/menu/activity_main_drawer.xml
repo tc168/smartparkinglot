@@ -7,8 +7,17 @@
         <item android:id="@+id/drawer_login"
             android:title="@string/drawer_login_select" />
 
+        <!--Add items to menu-->
+        <!--created by Yan Yu (N00769714)-->
+        <item android:id="@+id/drawer_pay"
+            android:title="@string/drawer_pay" />
+
+        <item android:id="@+id/drawer_wallet"
+            android:title="@string/drawer_wallet" />
+
+        <!--change setting title to string-->
         <item android:id="@+id/drawer_settings"
-            android:title="Settings" />
+            android:title="@string/drawer_settings" />
 
 
     </group>
