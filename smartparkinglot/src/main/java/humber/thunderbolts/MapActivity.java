@@ -182,6 +182,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
         //pay for your parking fee and leave in 20 minutes
         /**drawer_pay and wallet Created by Yan Yu (n00769714)******/
         if (id == R.id.drawer_pay) {
@@ -213,6 +214,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             //deleted old payment
         else if (id == R.id.drawer_login) {
+
             Intent intentLoginActivity = new Intent(this, LoginActivity.class);
             startActivity(intentLoginActivity);
 
