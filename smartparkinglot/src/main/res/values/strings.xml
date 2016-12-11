@@ -2,6 +2,14 @@
     <string name="app_name">SmartParkingLot</string>
 
     <string name="title_activity_login">Sign in</string>
+    <string name="action_settings">Settings</string>
+    <string name="back_exit"> Are you sure you want to exit?</string>
+    <string name="menu_no">No</string>
+    <string name="menu_yes">Yes</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -12,12 +20,41 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="drawer_payment_select">Payment</string>
+
+    <string name="drawer_login_select">Login</string>
+    <string name="drawer_settings">Settings</string>
+
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="allow_notification">Allow Notification</string>
 
     <string name="add_payment">Add Payment</string>
+    <string name="payment_screen_label">Payment</string>
+    <!--new string value added by Yan Yu (n00769714)-->
 
-
-
+    <string name="drawer_wallet">Wallet</string>
+    <string name="drawer_pay">Pay Now</string>
+    <string name="deposit_to_wallet">Deposit To my wallet</string>
+    <string name="deposit_method">How would you like to deposit money to your wallet?</string>
+    <string name="google_pay">Google Pay</string>
+    <string name="pay_pal">Buy with PayPal</string>
+    <string name="credit_card">Credit Card</string>
+    <string name="in_your_wallet">In Your Wallet</string>
+    <string name="you_have">You Have</string>
+    <string name="android_pay">Android Pay</string>
+    <string name="confirm">Confirm</string>
+    <string name="dialog_pay_now">Pay Now</string>
+    <string name="yes">Pay</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_pay_message">Do you want pay from your wallet?</string>
+    <string name="dialog_pay_title">Confirm</string>
+    <string name="dialog_builder1">You have Paid</string>
+    <string name="drawer_history">History</string>
+    <string name="date">Date: </string>
+    <string name="transaction_number">Transaction Number: </string>
+    <string name="location_id">Location ID:</string>
+    <string name="location_name">Location Name:</string>
+    <string name="fee">Fee:</string>
 </resources>

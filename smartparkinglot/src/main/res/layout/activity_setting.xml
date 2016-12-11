@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Created by alisha singh chauhan -->
+<!--n01075212-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="humber.thunderbolts.SettingActivity">
+
+
+    <TextView
+        android:id="@+id/switchStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text= "text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/mySwitch" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:id="@+id/toggleButton"
+        android:layout_marginTop="109dp"
+        android:layout_below="@+id/mySwitch"
+        android:layout_toEndOf="@+id/mySwitch" />
+
+    <TextView
+        android:text="Change To Night Mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_alignBaseline="@+id/toggleButton"
+        android:layout_alignBottom="@+id/toggleButton"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:text="Allow notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/mySwitch"
+        android:layout_below="@+id/switchStatus"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
