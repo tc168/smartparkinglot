@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_setting"
     android:layout_width="match_parent"
@@ -10,41 +10,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="humber.thunderbolts.SettingActivity">
 
-    <Switch
-        android:text="@string/allow_notification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="46dp"
-        android:id="@+id/mySwitch" />
 
     <TextView
         android:id="@+id/switchStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="12dp"
         android:text= "text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/mySwitch" />
 
-    <Switch
-        android:text="Automatic Night Mode"
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:id="@+id/mySwitch2"
+        android:layout_marginStart="54dp"
+        android:id="@+id/toggleButton"
+        android:layout_marginTop="109dp"
         android:layout_below="@+id/mySwitch"
-        android:layout_alignParentStart="true" />
+        android:layout_toEndOf="@+id/mySwitch" />
 
     <TextView
-        android:id="@+id/switchStatus2"
+        android:text="Change To Night Mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="22dp"
-        android:text= "text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:id="@+id/textView2"
+        android:layout_alignBaseline="@+id/toggleButton"
+        android:layout_alignBottom="@+id/toggleButton"
+        android:layout_alignParentStart="true" />
 
-</TableLayout>
+    <Switch
+        android:text="Allow Verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/mySwitch"
+        android:layout_below="@+id/switchStatus"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
