@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/smartparkinglot" />
+            <option value="$PROJECT_DIR$/smartparkinglot11111" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
