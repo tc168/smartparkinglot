@@ -39,7 +39,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ConnectDatabase con;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +62,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //        //Testing history database
 //        HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
 //        db.addHistory(new History("Dec/23/2014", "Young", "5"));
+
+
+        HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
+        db.addHistory(new History("Dec/23/2014", "Young", "5"));
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -223,6 +227,98 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else if (id == R.id.drawer_settings) {
             Intent intentSettingActivity = new Intent(this, SettingActivity.class);
             startActivity(intentSettingActivity);
+
+        }
+
+        //Add History item @Yan Yu
+        else if (id == R.id.drawer_parking_history) {
+            Intent intentHistoryListActivity = new Intent(this, ParkingActivityList.class);
+            startActivity(intentHistoryListActivity);
+        }
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    private ArrayList<ParkingSpot> getParkingList(GoogleMap googleMap) {
+
+        ArrayList<ParkingSpot> listOfParkingSpots = null;
+        try {
+            listOfParkingSpots = con.execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        for (ParkingSpot p : listOfParkingSpots) {
+            LatLng parkSpot = new LatLng(p.getLongitude(), p.getLatitude());
+            float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
+            MarkerOptions markerOption = new MarkerOptions()
+                    .position(parkSpot).title(p.getLicensePlate())
+                    .icon(BitmapDescriptorFactory.defaultMarker(color));
+
+            Marker marker = googleMap.addMarker(markerOption);
+            marker.showInfoWindow();
+
+        }
+
+        return listOfParkingSpots;
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+
+    private boolean checkLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        //System.out.print(map);
+        if (checkLocationPermission() && mMap != null)
+
+            mMap.setMyLocationEnabled(true);
+
+
+        System.out.println("location " + location);
+
+
+        double latitude = location.getLatitude();
+
+        // Getting longitude of the current location
+        double longitude = location.getLongitude();
+
+        // Creating a LatLng object for the current location
+        LatLng latLng = new LatLng(latitude, longitude);
+
+        System.out.println("Lat " + latitude);
+        System.out.println("long " + longitude);
+
+        LatLng myPosition = new LatLng(latitude, longitude);
+
+        // Add Makrer
+
+
+        // Zoom into my location
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
         }
 
         //Add History item @Yan Yu
