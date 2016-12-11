@@ -34,6 +34,16 @@ android {
 
 }
 
+
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -43,9 +53,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:multidex:1.0.0'
+
     compile 'com.google.android.gms:play-services-wallet:9.6.1'
 
     compile 'com.google.android.gms:play-services-maps:9.6.1'
+
+    compile 'com.google.android.gms:play-services:6.+'
+
     testCompile 'junit:junit:4.12'
-    compile files('C:/Users/Thomas/AndroidStudioProjects/smartparkinglot/libs/mysql-connector-java-5.1.40-bin.jar')
+    compile 'com.google.android.gms:play-services:6.5.87'
+    compile 'mysql:mysql-connector-java:5.1.40'
 }
