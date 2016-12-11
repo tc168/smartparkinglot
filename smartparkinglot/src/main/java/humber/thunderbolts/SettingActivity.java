@@ -1,4 +1,6 @@
 package humber.thunderbolts;
+// alsiha singh chauhan
+//n01075212
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,9 +40,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                                          boolean isChecked) {
 
                 if(isChecked){
-                    switchStatus.setText("Switch is currently ON");
+                    switchStatus.setText("You wil be notified shortly");
                 }else{
-                    switchStatus.setText("Switch is currently OFF");
+                    switchStatus.setText("No Notifications");
                 }
 
             }
@@ -48,10 +50,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         //check the current state before we display the screen
         if(mySwitch.isChecked()){
-            switchStatus.setText("Switch is currently ON");
+            switchStatus.setText("You wil be notified shortly");
         }
         else {
-            switchStatus.setText("Switch is currently OFF");
+            switchStatus.setText("No Notifications");
         }
     }
     @Override
