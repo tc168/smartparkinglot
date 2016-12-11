@@ -51,4 +51,10 @@
     <string name="dialog_pay_message">Do you want pay from your wallet?</string>
     <string name="dialog_pay_title">Confirm</string>
     <string name="dialog_builder1">You have Paid</string>
+    <string name="drawer_history">History</string>
+    <string name="date">Date: </string>
+    <string name="transaction_number">Transaction Number: </string>
+    <string name="location_id">Location ID:</string>
+    <string name="location_name">Location Name:</string>
+    <string name="fee">Fee:</string>
 </resources>

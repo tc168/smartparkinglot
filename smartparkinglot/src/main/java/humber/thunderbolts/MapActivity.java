@@ -53,7 +53,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private static final int LOCATION_PERMISSION = 100;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +61,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         con = new ConnectDatabase();
+
+
+        HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
+        db.addHistory(new History("Dec/23/2014", "Young", "5"));
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -268,8 +271,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else if (id == R.id.drawer_settings) {
             Intent intentSettingActivity = new Intent(this, SettingActivity.class);
             startActivity(intentSettingActivity);
-
         }
+
+        //Add History item @Yan Yu
+        else if (id == R.id.drawer_parking_history) {
+            Intent intentHistoryListActivity = new Intent(this, ParkingActivityList.class);
+            startActivity(intentHistoryListActivity);
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

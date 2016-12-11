@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Parking receipt  @Yan Yu-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+    <TableRow
+        >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:text="@string/date"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/textView2"
+            android:text=""
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/textView3"
+            android:text="@string/location_name"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/textView4"
+            android:text=""
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/textView5"
+            android:text="@string/fee"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/textView6"
+            android:text=""
+            android:gravity="right"
+            android:padding="3dip" />
+    </TableRow>
+
+</TableLayout>
+
+
+
