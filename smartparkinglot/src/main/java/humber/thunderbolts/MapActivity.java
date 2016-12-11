@@ -60,9 +60,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });*/
 
-        //Testing history database
-        HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
-        db.addHistory(new History("Dec/23/2014", "Young", "5"));
+//        //Testing history database
+//        HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
+//        db.addHistory(new History("Dec/23/2014", "Young", "5"));
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
