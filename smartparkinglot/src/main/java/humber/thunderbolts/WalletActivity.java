@@ -26,7 +26,11 @@ import com.google.android.gms.wallet.fragment.WalletFragmentOptions;
 import com.google.android.gms.wallet.fragment.WalletFragmentStyle;
 
 /**
- * Created by Yan Yu (n00769714) on 2016-11-21.
+ * WalletActivity.java
+ * Created by Yan Yu
+ * n00769714
+ * Date: 2016-11-21.
+ * This part has already been tested.
  */
 
 public class WalletActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
