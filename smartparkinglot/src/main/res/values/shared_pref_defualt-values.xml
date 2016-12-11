@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="defaultLat">43.72952382003048</string>
+    <string name="defaultLong"> -79.60450954735279</string>
+    <string name="defaultZoom">18.5f</string>
+</resources>
