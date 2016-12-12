@@ -3,6 +3,13 @@ package humber.thunderbolts;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.os.Build;
+
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +21,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,22 +31,39 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import humber.thunderbolts.parking.ConnectDatabase;
+import humber.thunderbolts.parking.MultiDrawable;
 import humber.thunderbolts.parking.ParkingSpot;
 
 //import humber.thunderbolts.parking.ConnectDatabase;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, ClusterManager.OnClusterClickListener<ParkingSpot>, ClusterManager.OnClusterInfoWindowClickListener<ParkingSpot>, ClusterManager.OnClusterItemClickListener<ParkingSpot>, ClusterManager.OnClusterItemInfoWindowClickListener<ParkingSpot> {
+
 
     private GoogleMap mMap;
 
     private ConnectDatabase con;
+
+    LocationRequest mLocationRequest;
+    GoogleApiClient mGoogleApiClient;
+    private ClusterManager<ParkingSpot> mClusterManager;
+
+
 
 
     @Override
@@ -68,7 +95,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         db.addHistory(new History("Dec/23/2014", "Young", "5"));
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -78,7 +104,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+
+
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -107,16 +137,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
-        assert listOfParkingSpots != null;
-        for (ParkingSpot p : listOfParkingSpots){
-            LatLng parkSpot = new LatLng(p.getLongitude(),p.getLatitude());
-            float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
-            MarkerOptions markerOption = new MarkerOptions()
-                    .position(parkSpot).title(p.getLicensePlate())
-                    .icon(BitmapDescriptorFactory.defaultMarker(color));
 
-            Marker marker =  mMap.addMarker(markerOption);
-            marker.showInfoWindow();
+        lat = Double.parseDouble(getString(R.string.defaultLat));
+        lng = Double.parseDouble(getString(R.string.defaultLong));
+        zoom = Float.parseFloat(getString(R.string.defaultZoom));
 
         }
 
@@ -126,6 +150,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // mMap.addMarker(new MarkerOptions().position(humber).title("Marker in Humber Parking"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(humber));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18.5f));
+
+        mClusterManager = new ClusterManager<ParkingSpot>(this, mMap);
+
+        mClusterManager.setRenderer(new ParkingSpotRender());
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+        mMap.setOnInfoWindowClickListener(mClusterManager);
+        mClusterManager.setOnClusterClickListener(this);
+        mClusterManager.setOnClusterInfoWindowClickListener(this);
+        mClusterManager.setOnClusterItemClickListener(this);
+        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
+        getParkingList(googleMap);
+
+        mClusterManager.cluster();
+
 
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -237,7 +276,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -255,7 +293,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         for (ParkingSpot p : listOfParkingSpots) {
-            LatLng parkSpot = new LatLng(p.getLongitude(), p.getLatitude());
+       /*    LatLng parkSpot = new LatLng(p.getLongitude(), p.getLatitude());
             float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
             MarkerOptions markerOption = new MarkerOptions()
                     .position(parkSpot).title(p.getLicensePlate())
@@ -263,6 +301,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Marker marker = googleMap.addMarker(markerOption);
             marker.showInfoWindow();
+
+*/
+            mClusterManager.addItem(p);
+
+           // System.out.println("add list" + p.getPosition());
 
         }
 
@@ -295,7 +338,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
 
 
-        System.out.println("location " + location);
 
 
         double latitude = location.getLatitude();
@@ -333,4 +375,111 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    protected GoogleMap getMap() {
+        return mMap;
+    }
+
+
+    @Override
+    public boolean onClusterClick(Cluster<ParkingSpot> cluster) {
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        for (ClusterItem item : cluster.getItems()) {
+            builder.include(item.getPosition());
+        }
+        // Get the LatLngBounds
+        final LatLngBounds bounds = builder.build();
+
+        // Animate camera to the bounds
+        try {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onClusterInfoWindowClick(Cluster<ParkingSpot> cluster) {
+
+    }
+
+    @Override
+    public boolean onClusterItemClick(ParkingSpot parkingSpot) {
+        return false;
+    }
+
+    @Override
+    public void onClusterItemInfoWindowClick(ParkingSpot parkingSpot) {
+
+    }
+
+
+    private class ParkingSpotRender extends DefaultClusterRenderer<ParkingSpot> {
+        private final IconGenerator mIconGenerator = new IconGenerator(getApplicationContext());
+        private final IconGenerator mClusterIconGenerator = new IconGenerator(getApplicationContext());
+        private final ImageView mImageView;
+        private final ImageView mClusterImageView;
+        private final int mDimension;
+
+        public ParkingSpotRender() {
+            super(getApplicationContext(), getMap(), mClusterManager);
+
+            View multiProfile = getLayoutInflater().inflate(R.layout.multi_profile, null);
+            mClusterIconGenerator.setContentView(multiProfile);
+            mClusterImageView = (ImageView) multiProfile.findViewById(R.id.marker_image);
+
+            mImageView = new ImageView(getApplicationContext());
+            mDimension = (int) getResources().getDimension(R.dimen.custom_profile_image);
+            mImageView.setLayoutParams(new ViewGroup.LayoutParams(mDimension, mDimension));
+            int padding = (int) getResources().getDimension(R.dimen.custom_profile_padding);
+            mImageView.setPadding(padding, padding, padding, padding);
+            mIconGenerator.setContentView(mImageView);
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(ParkingSpot parkingSpot, MarkerOptions markerOptions) {
+            // Draw a single person.
+            // Set the info window to show their name.
+            mImageView.setImageResource(parkingSpot.picture);
+            Bitmap icon = mIconGenerator.makeIcon();
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title( parkingSpot.getLicensePlate());
+
+        }
+
+        @Override
+        protected void onBeforeClusterRendered(Cluster<ParkingSpot> cluster, MarkerOptions markerOptions) {
+            // Draw multiple people.
+            // Note: this method runs on the UI thread. Don't spend too much time in here (like in this example).
+            List<Drawable> profilePhotos = new ArrayList<Drawable>(Math.min(4, cluster.getSize()));
+            int width = mDimension;
+            int height = mDimension;
+
+            for (ParkingSpot p : cluster.getItems()) {
+                // Draw 4 at most.
+                if (profilePhotos.size() == 4) break;
+
+
+                Drawable drawable = getResources().getDrawable(p.picture);
+                drawable.setBounds(0, 0, width, height);
+                profilePhotos.add(drawable);
+            }
+            MultiDrawable multiDrawable = new MultiDrawable(profilePhotos);
+            multiDrawable.setBounds(0, 0, width, height);
+
+           mClusterImageView.setImageDrawable(multiDrawable);
+            Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
+
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster cluster) {
+            // Always render clusters.
+            return cluster.getSize() > 1;
+        }
+    }
+
 }

@@ -1,23 +1,37 @@
 package humber.thunderbolts.parking;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
 import java.sql.Date;
+
+import humber.thunderbolts.R;
 
 /**
  * Created by Thomas on 2016-11-14.
  */
 
-public class ParkingSpot {
+public class ParkingSpot implements ClusterItem {
     private int id;
     private String licensePlate;
     private Date date;
+    private  final LatLng mPosition;
+    public final int picture;
 
-    public ParkingSpot(int id, String licensePlate, boolean isSpotTaken, double longitude, double latitude, Date date) {
+    public ParkingSpot(int id, String licensePlate, boolean isSpotTaken, double latitude, double longitude, Date date) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.isSpotTaken = isSpotTaken;
         this.longitude = longitude;
         this.latitude = latitude;
         this.date = date;
+        mPosition = new LatLng(latitude,longitude);
+        if (isSpotTaken){
+            picture = R.drawable.parking_spot_taken;
+        }
+        else {
+         picture = R.drawable.parking_spot;
+        }
     }
 
     private boolean isSpotTaken;
@@ -83,5 +97,10 @@ public class ParkingSpot {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return mPosition;
     }
 }
