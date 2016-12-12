@@ -1,6 +1,7 @@
 package humber.thunderbolts;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,6 +16,9 @@ public class SplashActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getResources().getBoolean(R.bool.landscape_only)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         Intent intent = new Intent (this, MapActivity.class);
         startActivity(intent);
         finish();
