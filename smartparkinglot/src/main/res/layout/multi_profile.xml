@@ -14,7 +14,8 @@
         android:id="@id/amu_text"
         android:layout_width="@dimen/number_size"
         android:layout_height="@dimen/number_size"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+
+        android:textAppearance="@style/numberIcon"
         android:background="@android:color/black"
         android:paddingLeft="@dimen/custom_profile_padding"
         android:paddingRight="@dimen/custom_profile_padding"
