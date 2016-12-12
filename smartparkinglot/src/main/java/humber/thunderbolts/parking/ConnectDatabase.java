@@ -46,7 +46,7 @@ public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<Parking
             Class.forName("com.mysql.jdbc.Driver");
 
 
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://10.0.2.2:3306/smartparking", "root", "password");
+            conn = (Connection) DriverManager.getConnection("jdbc:mysql://sql9.freemysqlhosting.net/sql9148979", "sql9148979", "mAzM4GEiJV");
             Statement stmt = conn.createStatement();
 
             ResultSet reset = stmt.executeQuery(" select * from parkingspots ");
