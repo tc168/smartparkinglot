@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="humber.thunderbolts">
+    package="humber.thunderbolts"
+    android:versionCode="1"
+    android:versionName="1.0"
+    >
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
 
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="23" />
     <!-- Google Maps for Android v2 requires OpenGL ES v2 -->
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
