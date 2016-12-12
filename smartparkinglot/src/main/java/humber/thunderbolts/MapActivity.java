@@ -1,4 +1,4 @@
-//Thomas Chang
+//Thomas Chang n01040694
 package humber.thunderbolts;
 
 import android.Manifest;
@@ -52,8 +52,8 @@ import humber.thunderbolts.parking.ConnectDatabase;
 import humber.thunderbolts.parking.MultiDrawable;
 import humber.thunderbolts.parking.ParkingSpot;
 
-//import humber.thunderbolts.parking.ConnectDatabase;
 
+// The map actitiy screen to display most of the infromation
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, ClusterManager.OnClusterClickListener<ParkingSpot>, ClusterManager.OnClusterInfoWindowClickListener<ParkingSpot>, ClusterManager.OnClusterItemClickListener<ParkingSpot>, ClusterManager.OnClusterItemInfoWindowClickListener<ParkingSpot> {
@@ -74,14 +74,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //create connection to a database and get the data
         con = new ConnectDatabase();
 
 
         HistoryDatabaseHelper db = new HistoryDatabaseHelper(this);
         db.addHistory(new History("Dec/23/2014", "Young", "5"));
 
-
+        //create a drawer so that we can have item / screens to navigate to
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,17 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
-
+    //kill the request location once it goes on pause
     @Override
     protected void onPause() {
         super.onPause();
@@ -122,18 +112,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    //when the map is retreive then...
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        //set to satellite mode picture
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-
 
 
         double lat;
         double lng;
         float zoom;
 
+        //check  if system is greater than masrhmellow for runtime permisisons
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -152,6 +143,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.setMyLocationEnabled(true);
         }
 
+        //set default location
         lat = Double.parseDouble(getString(R.string.defaultLat));
         lng = Double.parseDouble(getString(R.string.defaultLong));
         zoom = Float.parseFloat(getString(R.string.defaultZoom));
@@ -163,6 +155,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
 
 
+        //create a cluster manager to handle grouping markers
         mClusterManager = new ClusterManager<ParkingSpot>(this, mMap);
 
         mClusterManager.setRenderer(new ParkingSpotRender());
@@ -178,10 +171,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mClusterManager.cluster();
 
 
-
-
     }
 
+    /// create a service call to google api in order to get mylocation
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -191,6 +183,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mGoogleApiClient.connect();
     }
 
+    //set the parameters for the mylocation service
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -204,7 +197,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-
+    //Create a dialog to confrim if the user wishes to exit
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -229,25 +222,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        //  int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
 
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    // display the screen accordingly to witch  button pressed
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -306,7 +291,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
-
+    //  retrieve the  list of parking spots
     private ArrayList<ParkingSpot> getParkingList(GoogleMap googleMap) {
 
         ArrayList<ParkingSpot> listOfParkingSpots = null;
@@ -318,19 +303,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         for (ParkingSpot p : listOfParkingSpots) {
-       /*    LatLng parkSpot = new LatLng(p.getLongitude(), p.getLatitude());
-            float color = (p.isSpotTaken()) ? BitmapDescriptorFactory.HUE_BLUE : BitmapDescriptorFactory.HUE_RED;
-            MarkerOptions markerOption = new MarkerOptions()
-                    .position(parkSpot).title(p.getLicensePlate())
-                    .icon(BitmapDescriptorFactory.defaultMarker(color));
-
-            Marker marker = googleMap.addMarker(markerOption);
-            marker.showInfoWindow();
-
-*/
+            // place all the parking spots into the map cluster
             mClusterManager.addItem(p);
 
-           // System.out.println("add list" + p.getPosition());
 
         }
 
@@ -348,12 +323,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-
+    //statement to check the permission for location
     private boolean checkLocationPermission() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
     }
 
+    //when the app recongizes that there is a change of lcoation it will change and set the location on the map
     @Override
     public void onLocationChanged(Location location) {
 
@@ -361,8 +337,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (checkLocationPermission() && mMap != null)
 
             mMap.setMyLocationEnabled(true);
-
-
 
 
         double latitude = location.getLatitude();
@@ -373,8 +347,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
 
-        System.out.println("Lat " + latitude);
-        System.out.println("long " + longitude);
 
         LatLng myPosition = new LatLng(latitude, longitude);
 
@@ -383,12 +355,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Zoom into my location
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        //remove the serive to get location if the api is not called
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
 
-
+//function to  request the permission if it not enabled
     private void getLocationPermission() {
         boolean returnCheck = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
 
@@ -406,6 +379,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    //call  back when the permission dialog pops up
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -417,7 +391,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
+                        //create the service to display curre location
                         if (mGoogleApiClient == null) {
                             buildGoogleApiClient();
                         }
@@ -433,11 +407,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    //getter method to get the google map
     protected GoogleMap getMap() {
         return mMap;
     }
 
 
+    //when clicking on a cluster zoom into it to display more
     @Override
     public boolean onClusterClick(Cluster<ParkingSpot> cluster) {
         LatLngBounds.Builder builder = LatLngBounds.builder();
@@ -473,6 +449,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    //custom class to allow a custom image onto the clusters of marker
     private class ParkingSpotRender extends DefaultClusterRenderer<ParkingSpot> {
         private final IconGenerator mIconGenerator = new IconGenerator(getApplicationContext());
         private final IconGenerator mClusterIconGenerator = new IconGenerator(getApplicationContext());
@@ -480,6 +457,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         private final ImageView mClusterImageView;
         private final int mDimension;
 
+        //set up all the size to display a marker cluster
         public ParkingSpotRender() {
             super(getApplicationContext(), getMap(), mClusterManager);
 
@@ -495,16 +473,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mIconGenerator.setContentView(mImageView);
         }
 
+        //get the correct resrouce for a single item
         @Override
         protected void onBeforeClusterItemRendered(ParkingSpot parkingSpot, MarkerOptions markerOptions) {
             // Draw a single person.
             // Set the info window to show their name.
             mImageView.setImageResource(parkingSpot.picture);
             Bitmap icon = mIconGenerator.makeIcon();
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title( parkingSpot.getLicensePlate());
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(parkingSpot.getLicensePlate());
 
         }
 
+        //as a group of marker set the items
         @Override
         protected void onBeforeClusterRendered(Cluster<ParkingSpot> cluster, MarkerOptions markerOptions) {
             // Draw multiple people.
@@ -525,12 +505,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             MultiDrawable multiDrawable = new MultiDrawable(profilePhotos);
             multiDrawable.setBounds(0, 0, width, height);
 
-           mClusterImageView.setImageDrawable(multiDrawable);
+            mClusterImageView.setImageDrawable(multiDrawable);
             Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
 
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
         }
 
+        // to decide if it should be render  as cluster check the cluster size if its greater than 1
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
             // Always render clusters.

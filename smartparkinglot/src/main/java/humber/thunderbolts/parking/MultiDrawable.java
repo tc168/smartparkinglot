@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
+// Thomas Chang n01040694
 package humber.thunderbolts.parking;
+
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.List;
 /**
  * Draws up to four other drawables.
  */
+//this is class to deal with clustering icon , it will merge at least images
 public class MultiDrawable extends Drawable {
 
     private final List<Drawable> mDrawables;
@@ -100,6 +104,6 @@ public class MultiDrawable extends Drawable {
 
     @Override
     public int getOpacity() {
-        return 0;
+        return PixelFormat.UNKNOWN;
     }
 }

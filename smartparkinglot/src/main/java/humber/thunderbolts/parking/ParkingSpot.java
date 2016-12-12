@@ -10,7 +10,7 @@ import humber.thunderbolts.R;
 /**
  * Created by Thomas on 2016-11-14.
  */
-
+// Parking Spot model data ,all these  are data used to desribe the parking spot and to   be a map cluster item
 public class ParkingSpot implements ClusterItem {
     private int id;
     private String licensePlate;

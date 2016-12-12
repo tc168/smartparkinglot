@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Thomas on 2016-11-15.
+ Thomas Chang n01040694
  */
 
-
+/// Class to connect to database
 public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<ParkingSpot>> {
 
     public ArrayList<ParkingSpot> getParkingSpotsList() {
@@ -31,11 +32,13 @@ public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<Parking
 
     }
 
-
+// needs to be a syncTask in order to retrieve back the rows of the sql database
     @Override
     protected ArrayList<ParkingSpot> doInBackground(Object... params) {
         String response = "";
         Connection conn = null;
+
+        //create connection
         try {
 
             // SET CONNECTIONSTRING
@@ -52,13 +55,14 @@ public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<Parking
             int columnsNumber = rsmd.getColumnCount();
             while (reset.next()) {
 
-
+            //fill in what we retrieve in the database and populate it as a object
                 ParkingSpot parkingSpot = new ParkingSpot(reset.getInt(rsmd.getColumnName(1)), reset.getString(rsmd.getColumnName(2)), reset.getBoolean(rsmd.getColumnName(3)),reset.getDouble(rsmd.getColumnName(4)),reset.getDouble(rsmd.getColumnName(5)),reset.getDate(rsmd.getColumnName(6)) ) ;
 
-                System.out.println(parkingSpot);
+
                 parkingSpotsList.add(parkingSpot);
 
             }
+            //close connection
             conn.close();
 
         } catch (ClassNotFoundException e1) {
@@ -67,8 +71,6 @@ public class ConnectDatabase extends AsyncTask<Object, Object, ArrayList<Parking
             e1.printStackTrace();
         }
 
-        /// EditText num = (EditText) findViewById(R.id.displaymessage);
-        // num.setText(reset.getString(1));
 
 
 
